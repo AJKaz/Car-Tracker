@@ -1,17 +1,13 @@
 import { Button } from "./Button";
 import { useState } from "react";
 import * as firebase from "../firebase";
-import "../styles.css";
 
-const Login = () => {
+const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (): void => {
     firebase.login(username, password);
-  };
-  const handleLogout = (): void => {
-    firebase.logout();
   };
 
   return (
@@ -42,16 +38,8 @@ const Login = () => {
           }}
         ></input>
       </section>
-      <section
-        style={{
-          display: "Flex",
-          gap: "10px",
-          justifyContent: "center",
-          marginTop: "10px",
-        }}
-      >
+      <section style={{ marginTop: "10px" }}>
         <Button onClick={handleLogin} text="Login" />
-        <Button onClick={handleLogout} text="Logout" />
       </section>
     </>
   );

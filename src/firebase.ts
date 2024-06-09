@@ -13,6 +13,7 @@ import {
   get,
   Database,
 } from 'firebase/database';
+import { CarData } from './interfaces';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDoU0HemP_be9Yg54DOQF0zDWzL4-JQUro",
@@ -40,8 +41,7 @@ const firebaseConfig = {
   };
 
   const login = (username: string, password: string): void => {
-  
-    // Ensure username & password is good
+    // Ensure username & password are good
     if (!validateUsername(username) && !validatePassword(password)) {
       alert("Invalid username AND password");
       return;
@@ -71,12 +71,9 @@ const firebaseConfig = {
   const logout = () => {
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
-        console.log("User signed out successfully");
-        // Optionally, redirect the user to a different page after logout
+        console.log("Signed out");
       })
       .catch((error) => {
-        // An error happened.
         console.error("Error signing out: ", error);
       });
   };
@@ -104,24 +101,23 @@ const firebaseConfig = {
     console.log("Data Saved");
   };
 
-  const getData = (): void => {
+  const getCars = async (): Promise<CarData[]> => {
     const dbRef = ref(db);
-    get(dbRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const cars = snapshot.val().cars.chevelles;
-          for (const car in cars) {
-            console.log(
-              `Name: ${car} | Year: ${cars[car].year} | Color: ${cars[car].color}`
-            );
-          }
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const cars = snapshot.val().cars.chevelles;
+      const carData: CarData[] = [];
+      for (const car in cars) {
+        carData.push({ name: car, year: cars[car].year, color: cars[car].color });
+      }
+      return carData;
+    } else {
+      return [];
+    }
   };
 
-  export {login, logout, getData, saveData}
+const getLocalAuth = (): Auth => {
+  return auth;
+}
+
+  export {login, logout, getCars, saveData, getLocalAuth}

@@ -1,22 +1,16 @@
-// import { useState } from "react";
-import "./styles.css";
 import { Login } from "./Components/Login";
-import { Button } from "./Components/Button";
-import * as firebase from "./firebase";
+import HomePage from "./Components/HomePage";
+import useAuth from "./useAuth";
 
-const App = () => {
-  // const [count, setCount] = useState(0);
+const App: React.FC = () => {
+  const { user, loading } = useAuth();
 
-  return (
+  return loading ? (
+    <></>
+  ) : (
     <>
       <h1>Chevelle Tracker</h1>
-      <Login />
-      <Button
-        onClick={() => {
-          firebase.getData();
-        }}
-        text="TEMP - Get Data"
-      ></Button>
+      {user ? <HomePage /> : <Login />}
     </>
   );
 };

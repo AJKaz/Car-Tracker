@@ -1,12 +1,6 @@
-import "../styles.css";
+import { ButtonProps } from "../interfaces";
 
-interface ButtonProps {
-  text: string;
-  onClick: () => void;
-  className?: string;
-}
-
-const Button = (props: ButtonProps) => {
+const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <button className={props.className} onClick={props.onClick}>
       {props.text}
