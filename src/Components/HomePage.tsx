@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import * as firebase from "../firebase";
 import { Button } from "./Button";
-import { CarData } from "../interfaces";
+import { CarProps, CarData } from "../interfaces";
+import Modal from "./Modal";
+import AddCar from "./AddCar";
 
 // TEMP PLACEHOLDER IMAGE
-import vite from "../../public/vite.svg";
+import vite from "/vite.svg";
 
 const HomePage: React.FC = () => {
   const [cars, setCars] = useState<CarData[]>([]);
   const [search, setSearch] = useState("");
+  const [isAddCarOpen, setIsAddCarOpen] = useState(false);
 
   useEffect(() => {
     const fetchCars = async () => {
       const carsData = await firebase.getCars();
-      console.log("carsData", carsData);
+      //   console.log("carsData", carsData);
       setCars(carsData);
     };
     fetchCars();
@@ -21,6 +24,10 @@ const HomePage: React.FC = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+  };
+
+  const handleAddCar = (props: CarProps) => {
+    console.log("Handle Add Car Props:", props);
   };
 
   return (
@@ -49,13 +56,14 @@ const HomePage: React.FC = () => {
               </div>
             ))}
         </div>
-        <Button
-          text="Add Car"
-          onClick={() => {
-            /*TODO*/
-          }}
-        ></Button>
+        <Button text="Add Car" onClick={() => setIsAddCarOpen(true)}></Button>
       </div>
+      <Modal isOpen={isAddCarOpen} onClose={() => setIsAddCarOpen(false)}>
+        <AddCar
+          onAdd={handleAddCar}
+          onCancel={() => setIsAddCarOpen(false)}
+        ></AddCar>
+      </Modal>
     </>
   );
 };

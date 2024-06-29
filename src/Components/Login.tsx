@@ -5,9 +5,10 @@ import * as firebase from "../firebase";
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
   const handleLogin = (): void => {
-    firebase.login(username, password);
+    firebase.login(username, password, stayLoggedIn);
   };
 
   return (
@@ -38,8 +39,21 @@ const Login: React.FC = () => {
           }}
         ></input>
       </section>
+      <section style={{ marginTop: "8px" }}>
+        <label className="no-select">
+          <input
+            style={{ marginRight: "10px" }}
+            type="checkbox"
+            checked={stayLoggedIn}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setStayLoggedIn(e.target.checked);
+            }}
+          />
+          Stay Logged In?
+        </label>
+      </section>
       <section style={{ marginTop: "10px" }}>
-        <Button onClick={handleLogin} text="Login" />
+        <Button className="test" onClick={handleLogin} text="Login" />
       </section>
     </>
   );

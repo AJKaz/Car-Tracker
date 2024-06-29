@@ -28,8 +28,8 @@ const firebaseConfig = {
   const auth: Auth = getAuth(app);
   const db: Database = getDatabase();
 
-  const customEmailKey: string = "@chevellemail.com";
-
+  const customEmailKey: string = "@ajmail.com";
+  let stayLoggedIn: boolean = true
   const validateUsername = (username: string): boolean => {
     // Ensures there's only letters or numbers
     const pattern: RegExp = /^[a-zA-Z0-9]+$/;
@@ -40,7 +40,7 @@ const firebaseConfig = {
     return password.length >= 6;
   };
 
-  const login = (username: string, password: string): void => {
+  const login = (username: string, password: string, shouldStayLoggedIn: boolean): void => {
     // Ensure username & password are good
     if (!validateUsername(username) && !validatePassword(password)) {
       alert("Invalid username AND password");
@@ -55,6 +55,7 @@ const firebaseConfig = {
   
     signInWithEmailAndPassword(auth, username + customEmailKey, password)
       .then(() => {
+        stayLoggedIn = shouldStayLoggedIn;
         const user: User | null = auth.currentUser;
         if (user) console.log(`User ${user.uid} logged in.`);
       })
@@ -119,5 +120,9 @@ const firebaseConfig = {
 const getLocalAuth = (): Auth => {
   return auth;
 }
+
+window.addEventListener("beforeunload", () => {
+  if(!stayLoggedIn) logout();
+});
 
   export {login, logout, getCars, saveData, getLocalAuth}

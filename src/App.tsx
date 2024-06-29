@@ -9,7 +9,7 @@ const App: React.FC = () => {
     <></>
   ) : (
     <>
-      <h1>Chevelle Tracker</h1>
+      <h1>Chevelle Manager</h1>
       {user ? <HomePage /> : <Login />}
     </>
   );
