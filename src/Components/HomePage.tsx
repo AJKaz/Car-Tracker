@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as firebase from "../firebase";
 import { Button } from "./Button";
-import { CarProps, CarData } from "../interfaces";
+import { CarData } from "../interfaces";
 import Modal from "./Modal";
 import AddCar from "./AddCar";
 
@@ -26,8 +26,9 @@ const HomePage: React.FC = () => {
     setSearch(e.target.value);
   };
 
-  const handleAddCar = (props: CarProps) => {
-    console.log("Handle Add Car Props:", props);
+  const handleAddCar = (props: CarData) => {
+    // console.log("Handle Add Car Data:", props);
+    firebase.addCar(props);
   };
 
   return (

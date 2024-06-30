@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "./Button";
 import Input from "./Input";
-import { CarProps } from "../interfaces";
+import { CarData } from "../interfaces";
 
 interface AddCarProps {
-  onAdd: (props: CarProps) => void;
+  onAdd: (props: CarData) => void;
   onCancel: () => void;
 }
 
@@ -16,8 +16,8 @@ const AddCar: React.FC<AddCarProps> = ({ onAdd, onCancel }) => {
   const [expirationDate, setExpirationDate] = React.useState<Date>(new Date());
 
   const handleAdd = () => {
-    const props: CarProps = {
-      carName,
+    const props: CarData = {
+      name: carName,
       color,
       year,
       licensePlate,
